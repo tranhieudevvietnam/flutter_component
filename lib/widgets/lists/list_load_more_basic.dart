@@ -7,6 +7,7 @@ abstract class ListLoadMoreBasic<T> extends StatefulWidget {
   final Widget Function(BuildContext context)? buildEmpty;
   final ScrollController? scrollController;
   final bool lastItem;
+  final bool loading;
   final EdgeInsetsGeometry? padding;
 
   const ListLoadMoreBasic(
@@ -17,6 +18,7 @@ abstract class ListLoadMoreBasic<T> extends StatefulWidget {
       this.buildEmpty,
       this.padding,
       this.scrollController,
-      required this.lastItem})
+      required this.lastItem,
+      required this.loading})
       : super(key: key);
 }

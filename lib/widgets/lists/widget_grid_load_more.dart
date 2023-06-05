@@ -16,6 +16,7 @@ class WidgetGridLoadMore<T> extends ListLoadMoreBasic<T> {
       Widget Function(BuildContext context)? buildLoading,
       Widget Function(BuildContext context)? buildEmpty,
       bool lastItem = false,
+      bool loading = false,
       this.countRow = 2})
       : super(
             key: key,
@@ -25,6 +26,7 @@ class WidgetGridLoadMore<T> extends ListLoadMoreBasic<T> {
             data: data,
             onLoadData: onLoadData,
             padding: padding,
+            loading: loading,
             scrollController: scrollController);
   final Widget Function(BuildContext context, int index) buildChild;
   final int countRow;
@@ -43,20 +45,21 @@ class _WidgetGridLoadMoreState<T> extends State<WidgetGridLoadMore> {
   @override
   void initState() {
     scrollController = widget.scrollController ?? ScrollController();
-    scrollController.addListener(_onScroll);
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      try {
-        if (widget.globalKey != null) {
+    if (widget.globalKey != null) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        try {
           // ignore: invalid_use_of_protected_member
           widget.globalKey!.currentState!.innerController
               .removeListener(_onScrollByGlobalKey);
           widget.globalKey!.currentState!.innerController
               .addListener(_onScrollByGlobalKey);
+        } catch (e) {
+          rethrow;
         }
-      } catch (e) {
-        rethrow;
-      }
-    });
+      });
+    } else {
+      scrollController.addListener(_onScroll);
+    }
 
     super.initState();
   }
@@ -64,7 +67,7 @@ class _WidgetGridLoadMoreState<T> extends State<WidgetGridLoadMore> {
   void _onScrollByGlobalKey() async {
     try {
       if (!widget.globalKey!.currentState!.innerController.hasClients ||
-          widget.lastItem) {
+          widget.lastItem|| widget.loading) {
         return;
       }
       // debugPrint(
@@ -81,7 +84,7 @@ class _WidgetGridLoadMoreState<T> extends State<WidgetGridLoadMore> {
   }
 
   void _onScroll() async {
-    if (!scrollController.hasClients || widget.lastItem) {
+    if (!scrollController.hasClients || widget.lastItem ||  widget.loading) {
       return;
     }
     final thresholdReached =
