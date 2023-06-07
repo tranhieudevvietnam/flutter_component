@@ -80,7 +80,7 @@ class _WidgetColumnListLoadMoreState extends State<WidgetColumnListLoadMore> {
   }
 
   void _onScroll() {
-    if (!scrollController.hasClients || widget.lastItem || widget.loading) {
+    if (!scrollController.hasClients || widget.loading || widget.lastItem) {
       return;
     }
     final thresholdReached =
