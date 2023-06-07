@@ -112,28 +112,6 @@ class _WidgetColumnListLoadMoreState extends State<WidgetColumnListLoadMore> {
         return widget.buildChild.call(context, index);
       }),
     );
-
-    // return ListView.builder(
-    //   padding: widget.padding,
-    //   controller: widget.globalKey != null ? null : scrollController,
-    //   physics: widget.physics ?? const AlwaysScrollableScrollPhysics(),
-    //   itemCount: length,
-    //   itemBuilder: (context, index) {
-    //     if (index == length - 1) {
-    //       if (widget.data == null) {
-    //         return widgetLoading(context);
-    //       }
-    //       if (widget.data?.isEmpty == true) {
-    //         return widget.buildEmpty?.call(context) ?? const SizedBox();
-    //       }
-    //       if (widget.lastItem == false) {
-    //         return widgetLoading(context);
-    //       }
-    //       return const SizedBox();
-    //     }
-    //     return widget.buildChild.call(context, index);
-    //   },
-    // );
   }
 
   Widget widgetLoading(BuildContext context) {
