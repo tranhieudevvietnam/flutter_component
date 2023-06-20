@@ -67,7 +67,8 @@ class _WidgetGridLoadMoreState<T> extends State<WidgetGridLoadMore> {
   void _onScrollByGlobalKey() async {
     try {
       if (!widget.globalKey!.currentState!.innerController.hasClients ||
-          widget.lastItem|| widget.loading) {
+          widget.lastItem ||
+          widget.loading) {
         return;
       }
       // debugPrint(
@@ -84,7 +85,7 @@ class _WidgetGridLoadMoreState<T> extends State<WidgetGridLoadMore> {
   }
 
   void _onScroll() async {
-    if (!scrollController.hasClients || widget.lastItem ||  widget.loading) {
+    if (!scrollController.hasClients || widget.lastItem || widget.loading) {
       return;
     }
     final thresholdReached =
@@ -109,6 +110,7 @@ class _WidgetGridLoadMoreState<T> extends State<WidgetGridLoadMore> {
         return widget.buildChild.call(context, index);
       },
     );
+
     return ListView(
       padding: widget.padding,
       controller: widget.globalKey != null ? null : scrollController,
