@@ -101,12 +101,13 @@ class _WidgetColumnListLoadMoreState extends State<WidgetColumnListLoadMore> {
           if (widget.data == null) {
             return widgetLoading(context);
           }
-          if (widget.data?.isEmpty == true) {
-            return widget.buildEmpty?.call(context) ?? const SizedBox();
-          }
           if (widget.lastItem == false) {
             return widgetLoading(context);
           }
+          if (widget.data?.isEmpty == true) {
+            return widget.buildEmpty?.call(context) ?? const SizedBox();
+          }
+
           return const SizedBox();
         }
         return widget.buildChild.call(context, index);

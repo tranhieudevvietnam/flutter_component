@@ -6,11 +6,14 @@ class EventStaticComponent {
   Map<String, Map<String, Function>> groupEvent = {};
   Map<String, Function> listEvent = {};
 
-  add({required String key,required Function event}) {
+  add({required String key, required Function event}) {
     listEvent[key] = event;
   }
 
-  addGroup({required String groupKey, required String key,required Function event}) {
+  addGroup(
+      {required String groupKey,
+      required String key,
+      required Function event}) {
     if (groupEvent[groupKey] == null) {
       groupEvent[groupKey] = {key: event};
     } else {
@@ -42,7 +45,7 @@ class EventStaticComponent {
     } else {
       final listKey = groupEvent[groupKey]?.keys.toList();
       for (var item in listKey ?? []) {
-        groupEvent[groupKey]?[item]?.call(params);
+        groupEvent[groupKey]?[item]?.call(params ?? {});
       }
     }
   }
