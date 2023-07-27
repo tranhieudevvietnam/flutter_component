@@ -103,11 +103,11 @@ class _WidgetListLoadMoreState extends State<WidgetListLoadMore> {
           if (widget.data == null) {
             return widgetLoading(context);
           }
+          if (widget.data?.isEmpty == true && widget.lastItem == true) {
+            return widget.buildEmpty?.call(context) ?? const SizedBox();
+          }
           if (widget.lastItem == false) {
             return widgetLoading(context);
-          }
-          if (widget.data?.isEmpty == true) {
-            return widget.buildEmpty?.call(context) ?? const SizedBox();
           }
 
           return const SizedBox();
