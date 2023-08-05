@@ -46,10 +46,8 @@ class _WidgetListLoadMoreState extends State<WidgetListLoadMore> {
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         try {
           // ignore: invalid_use_of_protected_member
-          widget.globalKey!.currentState!.innerController
-              .removeListener(_onScrollByGlobalKey);
-          widget.globalKey!.currentState!.innerController
-              .addListener(_onScrollByGlobalKey);
+          widget.globalKey!.currentState!.innerController.removeListener(_onScrollByGlobalKey);
+          widget.globalKey!.currentState!.innerController.addListener(_onScrollByGlobalKey);
         } catch (e) {
           rethrow;
         }
@@ -63,14 +61,10 @@ class _WidgetListLoadMoreState extends State<WidgetListLoadMore> {
 
   void _onScrollByGlobalKey() async {
     try {
-      if (!widget.globalKey!.currentState!.innerController.hasClients ||
-          widget.lastItem ||
-          widget.loading) {
+      if (!widget.globalKey!.currentState!.innerController.hasClients || widget.lastItem || widget.loading) {
         return;
       }
-      final thresholdReached =
-          widget.globalKey!.currentState!.innerController.position.extentAfter <
-              _endReachedThreshold;
+      final thresholdReached = widget.globalKey!.currentState!.innerController.position.extentAfter < _endReachedThreshold;
       if (thresholdReached) {
         await widget.onLoadData?.call();
       }
@@ -83,8 +77,7 @@ class _WidgetListLoadMoreState extends State<WidgetListLoadMore> {
     if (!scrollController.hasClients || widget.lastItem || widget.loading) {
       return;
     }
-    final thresholdReached =
-        scrollController.position.extentAfter < _endReachedThreshold;
+    final thresholdReached = scrollController.position.extentAfter < _endReachedThreshold;
     if (thresholdReached) {
       widget.onLoadData?.call();
     }

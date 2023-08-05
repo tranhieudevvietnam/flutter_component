@@ -31,8 +31,7 @@ class WidgetColumnListLoadMore<T> extends ListLoadMoreBasic<T> {
   final MainAxisSize? mainAxisSize;
 
   @override
-  State<WidgetColumnListLoadMore> createState() =>
-      _WidgetColumnListLoadMoreState();
+  State<WidgetColumnListLoadMore> createState() => _WidgetColumnListLoadMoreState();
 }
 
 class _WidgetColumnListLoadMoreState extends State<WidgetColumnListLoadMore> {
@@ -46,10 +45,8 @@ class _WidgetColumnListLoadMoreState extends State<WidgetColumnListLoadMore> {
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         try {
           // ignore: invalid_use_of_protected_member
-          widget.globalKey!.currentState!.innerController
-              .removeListener(_onScrollByGlobalKey);
-          widget.globalKey!.currentState!.innerController
-              .addListener(_onScrollByGlobalKey);
+          widget.globalKey!.currentState!.innerController.removeListener(_onScrollByGlobalKey);
+          widget.globalKey!.currentState!.innerController.addListener(_onScrollByGlobalKey);
         } catch (e) {
           rethrow;
         }
@@ -63,14 +60,10 @@ class _WidgetColumnListLoadMoreState extends State<WidgetColumnListLoadMore> {
 
   void _onScrollByGlobalKey() async {
     try {
-      if (!widget.globalKey!.currentState!.innerController.hasClients ||
-          widget.lastItem ||
-          widget.loading) {
+      if (!widget.globalKey!.currentState!.innerController.hasClients || widget.lastItem || widget.loading) {
         return;
       }
-      final thresholdReached =
-          widget.globalKey!.currentState!.innerController.position.extentAfter <
-              _endReachedThreshold;
+      final thresholdReached = widget.globalKey!.currentState!.innerController.position.extentAfter < _endReachedThreshold;
       if (thresholdReached) {
         await widget.onLoadData?.call();
       }
@@ -83,8 +76,7 @@ class _WidgetColumnListLoadMoreState extends State<WidgetColumnListLoadMore> {
     if (!scrollController.hasClients || widget.loading || widget.lastItem) {
       return;
     }
-    final thresholdReached =
-        scrollController.position.extentAfter < _endReachedThreshold;
+    final thresholdReached = scrollController.position.extentAfter < _endReachedThreshold;
     if (thresholdReached) {
       widget.onLoadData?.call();
     }
@@ -94,24 +86,28 @@ class _WidgetColumnListLoadMoreState extends State<WidgetColumnListLoadMore> {
   Widget build(BuildContext context) {
     final length = (widget.data?.length ?? 0) + 1;
 
-    return Column(
-      mainAxisSize: widget.mainAxisSize ?? MainAxisSize.max,
-      children: List.generate(length, (index) {
-        if (index == length - 1) {
-          if (widget.data == null) {
-            return widgetLoading(context);
-          }
-          if (widget.data?.isEmpty == true && widget.lastItem == true) {
-            return widget.buildEmpty?.call(context) ?? const SizedBox();
-          }
-          if (widget.lastItem == false) {
-            return widgetLoading(context);
-          }
+    return SingleChildScrollView(
+      padding: widget.padding,
+      controller: widget.globalKey != null ? null : scrollController,
+      child: Column(
+        mainAxisSize: widget.mainAxisSize ?? MainAxisSize.max,
+        children: List.generate(length, (index) {
+          if (index == length - 1) {
+            if (widget.data == null) {
+              return widgetLoading(context);
+            }
+            if (widget.data?.isEmpty == true && widget.lastItem == true) {
+              return widget.buildEmpty?.call(context) ?? const SizedBox();
+            }
+            if (widget.lastItem == false) {
+              return widgetLoading(context);
+            }
 
-          return const SizedBox();
-        }
-        return widget.buildChild.call(context, index);
-      }),
+            return const SizedBox();
+          }
+          return widget.buildChild.call(context, index);
+        }),
+      ),
     );
   }
 
