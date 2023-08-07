@@ -9,8 +9,7 @@ class WidgetKeepAlive extends StatefulWidget {
   State<StatefulWidget> createState() => _KeepAliveState();
 }
 
-class _KeepAliveState extends State<WidgetKeepAlive>
-    with AutomaticKeepAliveClientMixin {
+class _KeepAliveState extends State<WidgetKeepAlive> with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 

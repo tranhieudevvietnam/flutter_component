@@ -49,10 +49,8 @@ class _WidgetGridLoadMoreState<T> extends State<WidgetGridLoadMore> {
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         try {
           // ignore: invalid_use_of_protected_member
-          widget.globalKey!.currentState!.innerController
-              .removeListener(_onScrollByGlobalKey);
-          widget.globalKey!.currentState!.innerController
-              .addListener(_onScrollByGlobalKey);
+          widget.globalKey!.currentState!.innerController.removeListener(_onScrollByGlobalKey);
+          widget.globalKey!.currentState!.innerController.addListener(_onScrollByGlobalKey);
         } catch (e) {
           rethrow;
         }
@@ -66,16 +64,12 @@ class _WidgetGridLoadMoreState<T> extends State<WidgetGridLoadMore> {
 
   void _onScrollByGlobalKey() async {
     try {
-      if (!widget.globalKey!.currentState!.innerController.hasClients ||
-          widget.lastItem ||
-          widget.loading) {
+      if (!widget.globalKey!.currentState!.innerController.hasClients || widget.lastItem || widget.loading) {
         return;
       }
       // debugPrint(
       //     "scrollController.position.extentAfter: ${widget.globalKey!.currentState!.innerController.position.extentAfter}");
-      final thresholdReached =
-          widget.globalKey!.currentState!.innerController.position.extentAfter <
-              _endReachedThreshold;
+      final thresholdReached = widget.globalKey!.currentState!.innerController.position.extentAfter < _endReachedThreshold;
       if (thresholdReached) {
         await widget.onLoadData?.call();
       }
@@ -88,8 +82,7 @@ class _WidgetGridLoadMoreState<T> extends State<WidgetGridLoadMore> {
     if (!scrollController.hasClients || widget.lastItem || widget.loading) {
       return;
     }
-    final thresholdReached =
-        scrollController.position.extentAfter < _endReachedThreshold;
+    final thresholdReached = scrollController.position.extentAfter < _endReachedThreshold;
     if (thresholdReached) {
       await widget.onLoadData?.call();
     }
@@ -97,11 +90,21 @@ class _WidgetGridLoadMoreState<T> extends State<WidgetGridLoadMore> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.data?.isEmpty == true) {
+    if (widget.data == null) {
+      return widget.buildLoading != null ? widget.buildLoading!.call(context) : widgetLoading(context);
+    }
+    if (widget.data?.isEmpty == true && widget.lastItem == true) {
       return ListView(
+        controller: widget.globalKey != null ? null : scrollController,
+        physics: widget.globalKey != null ? const NeverScrollableScrollPhysics() : widget.physics,
+        shrinkWrap: widget.shrinkWrap,
         children: [widget.buildEmpty?.call(context) ?? const SizedBox()],
       );
     }
+    if (widget.lastItem == false) {
+      return widget.buildLoading != null ? widget.buildLoading!.call(context) : widgetLoading(context);
+    }
+
     final listView = buildBodyWrap<T>(
       context: context,
       countRow: widget.countRow,
@@ -114,7 +117,7 @@ class _WidgetGridLoadMoreState<T> extends State<WidgetGridLoadMore> {
     return ListView(
       padding: widget.padding,
       controller: widget.globalKey != null ? null : scrollController,
-      physics: widget.physics,
+      physics: widget.globalKey != null ? const NeverScrollableScrollPhysics() : widget.physics,
       shrinkWrap: widget.shrinkWrap,
       children: listView,
     );
@@ -175,13 +178,7 @@ class _WidgetGridLoadMoreState<T> extends State<WidgetGridLoadMore> {
     ));
 
     if ((index + countRow) < (data?.length ?? 0)) {
-      buildBodyWrap(
-          index: index + countRow,
-          data: data,
-          listChild: listChild,
-          buildItem: buildItem,
-          context: context,
-          countRow: countRow);
+      buildBodyWrap(index: index + countRow, data: data, listChild: listChild, buildItem: buildItem, context: context, countRow: countRow);
     } else {
       if (widget.lastItem == false) {
         listChild.add(widget.buildLoading?.call(context) ?? const SizedBox());
