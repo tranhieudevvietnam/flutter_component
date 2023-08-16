@@ -86,29 +86,48 @@ class _WidgetColumnListLoadMoreState extends State<WidgetColumnListLoadMore> {
   Widget build(BuildContext context) {
     final length = (widget.data?.length ?? 0) + 1;
 
-    return SingleChildScrollView(
-      padding: widget.padding,
-      controller: widget.globalKey != null ? null : scrollController,
-      child: Column(
-        mainAxisSize: widget.mainAxisSize ?? MainAxisSize.max,
-        children: List.generate(length, (index) {
-          if (index == length - 1) {
-            if (widget.data == null) {
-              return widgetLoading(context);
-            }
-            if (widget.data?.isEmpty == true && widget.lastItem == true) {
-              return widget.buildEmpty?.call(context) ?? const SizedBox();
-            }
-            if (widget.lastItem == false) {
-              return widgetLoading(context);
-            }
-
-            return const SizedBox();
+    return Column(
+      mainAxisSize: widget.mainAxisSize ?? MainAxisSize.max,
+      children: List.generate(length, (index) {
+        if (index == length - 1) {
+          if (widget.data == null) {
+            return widgetLoading(context);
           }
-          return widget.buildChild.call(context, index);
-        }),
-      ),
+          if (widget.data?.isEmpty == true && widget.lastItem == true) {
+            return widget.buildEmpty?.call(context) ?? const SizedBox();
+          }
+          if (widget.lastItem == false) {
+            return widgetLoading(context);
+          }
+
+          return const SizedBox();
+        }
+        return widget.buildChild.call(context, index);
+      }),
     );
+    // return SingleChildScrollView(
+    //   padding: widget.padding,
+    //   controller: widget.globalKey != null ? null : scrollController,
+    //   child: Column(
+    //     mainAxisSize: widget.mainAxisSize ?? MainAxisSize.max,
+    //     children: List.generate(length, (index) {
+    //       if (index == length - 1) {
+    //         if (widget.data == null) {
+    //           return widgetLoading(context);
+    //         }
+    //         if (widget.data?.isEmpty == true && widget.lastItem == true) {
+    //           return widget.buildEmpty?.call(context) ?? const SizedBox();
+    //         }
+    //         if (widget.lastItem == false) {
+    //           return widgetLoading(context);
+    //         }
+
+    //         return const SizedBox();
+    //       }
+    //       return widget.buildChild.call(context, index);
+    //     }),
+    //   ),
+    // );
   }
 
   Widget widgetLoading(BuildContext context) {
