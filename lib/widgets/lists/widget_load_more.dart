@@ -9,6 +9,8 @@ class WidgetListLoadMore<T> extends ListLoadMoreBasic<T> {
     required this.buildChild,
     this.globalKey,
     this.physics,
+    this.primary,
+    this.shrinkWrap,
     EdgeInsetsGeometry? padding,
     List<T>? data,
     ScrollController? scrollController,
@@ -29,6 +31,8 @@ class WidgetListLoadMore<T> extends ListLoadMoreBasic<T> {
   final Widget Function(BuildContext context, int index) buildChild;
   final GlobalKey<NestedScrollViewState>? globalKey;
   final ScrollPhysics? physics;
+  final bool? primary;
+  final bool? shrinkWrap;
 
   @override
   State<WidgetListLoadMore> createState() => _WidgetListLoadMoreState();
@@ -91,6 +95,8 @@ class _WidgetListLoadMoreState extends State<WidgetListLoadMore> {
       controller: widget.globalKey != null ? null : scrollController,
       physics: widget.physics ?? const AlwaysScrollableScrollPhysics(),
       itemCount: length,
+      primary: widget.primary,
+      shrinkWrap: widget.shrinkWrap ?? false,
       itemBuilder: (context, index) {
         if (index == length - 1) {
           if (widget.data == null) {

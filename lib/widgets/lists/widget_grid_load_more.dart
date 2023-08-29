@@ -94,12 +94,16 @@ class _WidgetGridLoadMoreState<T> extends State<WidgetGridLoadMore> {
       return widget.buildLoading != null ? widget.buildLoading!.call(context) : widgetLoading(context);
     }
     if (widget.data?.isEmpty == true && widget.lastItem == true) {
-      return ListView(
-        controller: widget.globalKey != null ? null : scrollController,
-        physics: widget.globalKey != null ? const NeverScrollableScrollPhysics() : widget.physics,
-        shrinkWrap: widget.shrinkWrap,
-        children: [widget.buildEmpty?.call(context) ?? const SizedBox()],
-      );
+      if (widget.physics is! NeverScrollableScrollPhysics) {
+        return ListView(
+          padding: widget.padding,
+          controller: (widget.globalKey != null || widget.physics is NeverScrollableScrollPhysics) ? null : scrollController,
+          physics: widget.physics ?? const AlwaysScrollableScrollPhysics(),
+          shrinkWrap: widget.shrinkWrap,
+          children: [widget.buildEmpty?.call(context) ?? const SizedBox()],
+        );
+      }
+      return widget.buildEmpty?.call(context) ?? const SizedBox();
     }
     if (widget.lastItem == false) {
       return widget.buildLoading != null ? widget.buildLoading!.call(context) : widgetLoading(context);
@@ -116,7 +120,7 @@ class _WidgetGridLoadMoreState<T> extends State<WidgetGridLoadMore> {
 
     return ListView(
       padding: widget.padding,
-      controller: widget.globalKey != null ? null : scrollController,
+      controller: (widget.globalKey != null || widget.physics is NeverScrollableScrollPhysics) ? null : scrollController,
       physics: widget.globalKey != null ? const NeverScrollableScrollPhysics() : widget.physics,
       shrinkWrap: widget.shrinkWrap,
       children: listView,
