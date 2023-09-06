@@ -7,3 +7,5 @@ export 'widgets/drop_down/widget_drop_down.dart';
 export 'widgets/drop_down/widget_dialog_animation.dart';
 export 'widgets/widget_keep_alive.dart';
 export 'events/event_static_component.dart';
+export 'extension/context_extension.dart';
+
