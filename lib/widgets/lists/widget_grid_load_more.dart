@@ -105,9 +105,9 @@ class _WidgetGridLoadMoreState<T> extends State<WidgetGridLoadMore> {
       }
       return widget.buildEmpty?.call(context) ?? const SizedBox();
     }
-    if (widget.lastItem == false) {
-      return widget.buildLoading != null ? widget.buildLoading!.call(context) : widgetLoading(context);
-    }
+    // if (widget.lastItem == false) {
+    //   return widget.buildLoading != null ? widget.buildLoading!.call(context) : widgetLoading(context);
+    // }
 
     final listView = buildBodyWrap<T>(
       context: context,
