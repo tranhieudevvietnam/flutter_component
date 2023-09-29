@@ -10,6 +10,7 @@ class WidgetGridLoadMore<T> extends ListLoadMoreBasic<T> {
       Function()? onLoadData,
       required this.buildChild,
       this.globalKey,
+      this.childrenEnd,
       EdgeInsetsGeometry? padding,
       List<T>? data,
       ScrollController? scrollController,
@@ -33,6 +34,7 @@ class WidgetGridLoadMore<T> extends ListLoadMoreBasic<T> {
   final ScrollPhysics? physics;
   final bool shrinkWrap;
   final GlobalKey<NestedScrollViewState>? globalKey;
+  final List<Widget>? childrenEnd;
 
   @override
   State<WidgetGridLoadMore> createState() => _WidgetGridLoadMoreState();
@@ -123,7 +125,7 @@ class _WidgetGridLoadMoreState<T> extends State<WidgetGridLoadMore> {
       controller: (widget.globalKey != null || widget.physics is NeverScrollableScrollPhysics) ? null : scrollController,
       physics: widget.globalKey != null ? const NeverScrollableScrollPhysics() : widget.physics,
       shrinkWrap: widget.shrinkWrap,
-      children: listView,
+      children: [...listView, ...widget.childrenEnd ?? []],
     );
   }
 

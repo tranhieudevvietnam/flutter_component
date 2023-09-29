@@ -16,15 +16,14 @@ class DioConfigNetwork {
     _options = options ??
         BaseOptions(
           baseUrl: baseUrl,
-          connectTimeout: const Duration(seconds: 15),
-          receiveTimeout: const Duration(seconds: 15),
+          receiveDataWhenStatusError: true,
+          connectTimeout: const Duration(seconds: 20),
+          receiveTimeout: const Duration(seconds: 20),
         );
     dio = Dio(_options);
     // ignore: deprecated_member_use
-    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-        (HttpClient client) {
-      client.badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
+      client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
       return client;
     };
 
@@ -56,10 +55,7 @@ class ErrorConfig extends Interceptor {
         'data': err.response?.requestOptions.data,
         'headers': err.response?.requestOptions.headers,
       };
-      FirebaseCrash.instant.sendNonFatalError(
-          message: " ${err.message}",
-          exception: err,
-          log: "Request: $logRequest\nResponse: $logData");
+      FirebaseCrash.instant.sendNonFatalError(message: " ${err.message}", exception: err, log: "Request: $logRequest\nResponse: $logData");
     } catch (e) {
       rethrow;
     }
