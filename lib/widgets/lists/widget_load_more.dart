@@ -11,6 +11,7 @@ class WidgetListLoadMore<T> extends ListLoadMoreBasic<T> {
     this.physics,
     this.primary,
     this.shrinkWrap,
+    this.childEnd,
     EdgeInsetsGeometry? padding,
     List<T>? data,
     ScrollController? scrollController,
@@ -33,6 +34,7 @@ class WidgetListLoadMore<T> extends ListLoadMoreBasic<T> {
   final ScrollPhysics? physics;
   final bool? primary;
   final bool? shrinkWrap;
+  final Widget? childEnd;
 
   @override
   State<WidgetListLoadMore> createState() => _WidgetListLoadMoreState();
@@ -109,7 +111,7 @@ class _WidgetListLoadMoreState extends State<WidgetListLoadMore> {
             return widgetLoading(context);
           }
 
-          return const SizedBox();
+          return widget.childEnd ?? const SizedBox();
         }
         return widget.buildChild.call(context, index);
       },
