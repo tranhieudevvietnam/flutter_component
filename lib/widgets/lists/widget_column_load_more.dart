@@ -102,10 +102,7 @@ class _WidgetColumnListLoadMoreState extends State<WidgetColumnListLoadMore> {
             return widgetLoading(context);
           }
 
-          return widget.childrenEnd ??
-              const SizedBox(
-                height: 8,
-              );
+          return widget.childrenEnd ?? const SizedBox();
         }
         return widget.buildChild.call(context, index);
       }),
