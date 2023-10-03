@@ -9,6 +9,7 @@ class WidgetColumnListLoadMore<T> extends ListLoadMoreBasic<T> {
     required this.buildChild,
     this.globalKey,
     this.mainAxisSize,
+    this.childrenEnd,
     EdgeInsetsGeometry? padding,
     List<T>? data,
     ScrollController? scrollController,
@@ -29,6 +30,7 @@ class WidgetColumnListLoadMore<T> extends ListLoadMoreBasic<T> {
   final Widget Function(BuildContext context, int index) buildChild;
   final GlobalKey<NestedScrollViewState>? globalKey;
   final MainAxisSize? mainAxisSize;
+  final Widget? childrenEnd;
 
   @override
   State<WidgetColumnListLoadMore> createState() => _WidgetColumnListLoadMoreState();
@@ -100,7 +102,10 @@ class _WidgetColumnListLoadMoreState extends State<WidgetColumnListLoadMore> {
             return widgetLoading(context);
           }
 
-          return const SizedBox();
+          return widget.childrenEnd ??
+              const SizedBox(
+                height: 8,
+              );
         }
         return widget.buildChild.call(context, index);
       }),
