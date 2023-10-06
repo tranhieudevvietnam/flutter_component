@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class EventStaticComponent {
   EventStaticComponent._();
 
@@ -10,10 +12,7 @@ class EventStaticComponent {
     listEvent[key] = event;
   }
 
-  addGroup(
-      {required String groupKey,
-      required String key,
-      required Function event}) {
+  addGroup({required String groupKey, required String key, required Function event}) {
     if (groupEvent[groupKey] == null) {
       groupEvent[groupKey] = {key: event};
     } else {
@@ -45,7 +44,11 @@ class EventStaticComponent {
     } else {
       final listKey = groupEvent[groupKey]?.keys.toList();
       for (var item in listKey ?? []) {
-        groupEvent[groupKey]?[item]?.call(params ?? {});
+        try {
+          groupEvent[groupKey]?[item]?.call(params ?? {});
+        } catch (error) {
+          debugPrint("error: $error");
+        }
       }
     }
   }
