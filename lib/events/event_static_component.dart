@@ -5,14 +5,14 @@ class EventStaticComponent {
 
   static EventStaticComponent instance = EventStaticComponent._();
 
-  Map<String, Map<String, Function>> groupEvent = {};
-  Map<String, Function> listEvent = {};
+  Map<String, Map<String, Function(dynamic params, String groupKey, String key)>> groupEvent = {};
+  Map<String, Function(dynamic params, String key)> listEvent = {};
 
-  add({required String key, required Function event}) {
+  add({required String key, required Function(dynamic params, String? key) event}) {
     listEvent[key] = event;
   }
 
-  addGroup({required String groupKey, required String key, required Function event}) {
+  addGroup({required String groupKey, required String key, required Function(dynamic params, String groupKey, String key) event}) {
     if (groupEvent[groupKey] == null) {
       groupEvent[groupKey] = {key: event};
     } else {
@@ -35,17 +35,17 @@ class EventStaticComponent {
   }
 
   call({required String key, dynamic params}) {
-    listEvent[key]?.call(params);
+    listEvent[key]?.call(params, key);
   }
 
   callGroup({required String groupKey, String? key, dynamic params}) {
     if (key != null) {
-      groupEvent[groupKey]?[key]?.call(params);
+      groupEvent[groupKey]?[key]?.call(params, groupKey, key);
     } else {
       final listKey = groupEvent[groupKey]?.keys.toList();
       for (var item in listKey ?? []) {
         try {
-          groupEvent[groupKey]?[item]?.call(params ?? {});
+          groupEvent[groupKey]?[item]?.call(params ?? {}, groupKey, item??'');
         } catch (error) {
           debugPrint("error: $error");
         }
