@@ -14,12 +14,31 @@ dependencies:
   dio: ^5.1.2
   shared_preferences: 
   firebase_crashlytics:
+  flutter_svg: ^2.0.5
+  intl:
+  date_time_picker:
+    path: ./packages/date_time_picker
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+
+  build_runner: ^2.3.2
+  flutter_gen_runner:
+
+
+# flutter_gen:
+#   output: lib/gen/ # Optional (default: lib/gen/)
+#   # line_length: 80 # Optional (default: 80)
+
+#   # Optional
+#   integrations:
+#     flutter_svg: true
+#   colors:
+#     inputs:
+#       - assets/colors.xml
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -41,3 +41,28 @@ samples, guidance on mobile development, and a full API reference.
  <key>FirebaseCrashlyticsCollectionEnabled</key>
  <false/>
 ```
+
+## flutter_gen
+
+- add `pubspec.yaml`
+
+```
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+  build_runner: 
+  flutter_gen_runner:
+
+flutter_gen:
+  output: lib/gen/ # Optional (default: lib/gen/)
+  # line_length: 80 # Optional (default: 80)
+
+  # Optional
+  integrations:
+    flutter_svg: true
+  colors:
+    inputs:
+      - assets/colors.xml
+```
