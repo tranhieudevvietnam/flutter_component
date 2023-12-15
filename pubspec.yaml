@@ -17,7 +17,11 @@ dependencies:
   flutter_svg: ^2.0.5
   intl:
   date_time_picker:
-    path: ./packages/date_time_picker
+    # path: ./packages/date_time_picker
+    git: 
+      url: https://github.com/tranhieudevvietnam/flutter_component.git
+      ref: dev
+      path: packages/date_time_picker
 
 
 dev_dependencies:
