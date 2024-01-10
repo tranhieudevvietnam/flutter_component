@@ -38,16 +38,25 @@ class EventStaticComponent {
     listEvent[key]?.call(params, key);
   }
 
-  callGroup({required String groupKey, String? key, dynamic params}) {
+  callGroup({required String groupKey, String? key, dynamic params, bool callLastEvent = false}) {
     if (key != null) {
       groupEvent[groupKey]?[key]?.call(params, groupKey, key);
     } else {
       final listKey = groupEvent[groupKey]?.keys.toList();
-      for (var item in listKey ?? []) {
+
+      if (callLastEvent == true) {
         try {
-          groupEvent[groupKey]?[item]?.call(params ?? {}, groupKey, item??'');
-        } catch (error) {
-          debugPrint("error: $error");
+          groupEvent[groupKey]?[listKey?.last]?.call(params ?? {}, groupKey, listKey?.last ?? '');
+          // ignore: empty_catches
+        } catch (e) {}
+        return;
+      } else {
+        for (var item in listKey ?? []) {
+          try {
+            groupEvent[groupKey]?[item]?.call(params ?? {}, groupKey, item ?? '');
+          } catch (error) {
+            debugPrint("event_static_component - $groupKey - $item ===>error: $error");
+          }
         }
       }
     }

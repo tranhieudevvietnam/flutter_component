@@ -5,17 +5,18 @@ class ListComponent {
   static ListComponent instant = ListComponent._();
 
   // ignore: avoid_shadowing_type_parameters
-  List<Widget> buildBodyWrap<T>(
-      {required BuildContext context,
-      required int countRow,
-      bool lastItem = true,
-      int index = 0,
-      required List<T>? data,
-      List<Widget>? listChild,
-      double vertical = 10,
-      double horizontal = 10,
-      Function(BuildContext context)? buildLoading,
-      required Function(int index) buildItem}) {
+  List<Widget> buildBodyWrap<T>({
+    required BuildContext context,
+    required int countRow,
+    bool lastItem = true,
+    int index = 0,
+    required List<T>? data,
+    List<Widget>? listChild,
+    double vertical = 10,
+    double horizontal = 10,
+    Function(BuildContext context)? buildLoading,
+    required Function(int index) buildItem,
+  }) {
     listChild ??= [];
     List<Widget> listChildRow = [];
 

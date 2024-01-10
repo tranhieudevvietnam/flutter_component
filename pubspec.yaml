@@ -11,7 +11,8 @@ dependencies:
   flutter:
     sdk: flutter
   plugin_platform_interface: ^2.0.2
-  dio: ^5.1.2
+  # dio: ^5.1.2
+  dio: 
   shared_preferences: 
   firebase_crashlytics:
   flutter_svg: ^2.0.5

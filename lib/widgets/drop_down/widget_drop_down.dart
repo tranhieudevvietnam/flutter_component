@@ -16,13 +16,13 @@ class WidgetDropdown<T> extends StatefulWidget {
   final List<T> listData;
   final Function(T value)? onChange;
   final Function(OverlayEntry overlayEntry)? initOverlayEntry;
-  T? data;
+  T data;
   WidgetDropdown({
     super.key,
     required this.listData,
     required this.builderDropdownItem,
     required this.builderDropdownItemMenu,
-    this.data,
+    required this.data,
     this.initOverlayEntry,
     this.onChange,
   });
@@ -67,11 +67,9 @@ class _WidgetDropdownState<T> extends State<WidgetDropdown<T>> {
                         (index) => GestureDetector(
                               behavior: HitTestBehavior.translucent,
                               onTap: () {
-                                _onTap.call(
-                                    itemSelected: widget.listData[index]);
+                                _onTap.call(itemSelected: widget.listData[index]);
                               },
-                              child: widget.builderDropdownItemMenu
-                                  .call(context, widget.listData[index]),
+                              child: widget.builderDropdownItemMenu.call(context, widget.listData[index]),
                             )),
                   ),
                 ),
@@ -83,10 +81,7 @@ class _WidgetDropdownState<T> extends State<WidgetDropdown<T>> {
   Widget build(BuildContext context) {
     return CompositedTransformTarget(
       link: _layerLink,
-      child: GestureDetector(
-          onTap: _onTap,
-          behavior: HitTestBehavior.translucent,
-          child: widget.builderDropdownItem.call(context, widget.data)),
+      child: GestureDetector(onTap: _onTap, behavior: HitTestBehavior.translucent, child: widget.builderDropdownItem.call(context, widget.data)),
     );
   }
 
