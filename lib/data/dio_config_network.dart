@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_component/data/firebase_crash.dart';
 import 'package:flutter_component/data/spref.dart';
 
@@ -22,10 +23,12 @@ class DioConfigNetwork {
         );
     dio = Dio(_options);
     // ignore: deprecated_member_use
-    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
-      client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
-      return client;
-    };
+    if (!kIsWeb) {
+      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
+        client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+        return client;
+      };
+    }
 
     dio.interceptors.addAll([RequestConfig(), ErrorConfig()]);
   }
@@ -55,7 +58,7 @@ class ErrorConfig extends Interceptor {
         'data': err.response?.requestOptions.data,
         'headers': err.response?.requestOptions.headers,
       };
-      FirebaseCrash.instant.sendNonFatalError(message: " ${err.message}", exception: err, log: "Request: $logRequest\nResponse: $logData");
+      // FirebaseCrash.instant.sendNonFatalError(message: " ${err.message}", exception: err, log: "Request: $logRequest\nResponse: $logData");
     } catch (e) {
       rethrow;
     }

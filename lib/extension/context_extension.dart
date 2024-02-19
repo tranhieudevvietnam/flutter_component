@@ -5,6 +5,9 @@ extension ContextCustom on BuildContext {
     return MediaQuery.of(this).size;
   }
 
+  double get width => MediaQuery.of(this).size.width;
+  double get height => MediaQuery.of(this).size.height;
+
   Size getRenderSize() {
     final RenderBox renderBox = findRenderObject() as RenderBox;
     final Size size = renderBox.size;

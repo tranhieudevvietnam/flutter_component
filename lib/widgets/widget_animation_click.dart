@@ -41,8 +41,8 @@ class _WidgetAnimationClickState extends State<WidgetAnimationClick> with Single
 
   @override
   void dispose() {
-    super.dispose();
     _controller.dispose();
+    super.dispose();
   }
 
   @override
