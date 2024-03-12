@@ -26,6 +26,7 @@ class ListComponent {
           listChildRow.add(
             Expanded(child: buildItem.call(i)),
           );
+          // if (i < (data.length - 1) && (i < (index + countRow - 1))) {
           if (i < (index + countRow - 1)) {
             listChildRow.add(SizedBox(
               width: horizontal,
@@ -50,7 +51,15 @@ class ListComponent {
 
     if ((index + countRow) < (data?.length ?? 0)) {
       buildBodyWrap(
-          index: index + countRow, data: data, listChild: listChild, buildItem: buildItem, context: context, countRow: countRow, lastItem: lastItem);
+          index: index + countRow,
+          data: data,
+          listChild: listChild,
+          buildItem: buildItem,
+          horizontal: horizontal,
+          vertical: vertical,
+          context: context,
+          countRow: countRow,
+          lastItem: lastItem);
     } else {
       if (lastItem == false) {
         listChild.add(buildLoading?.call(context) ?? const SizedBox());
