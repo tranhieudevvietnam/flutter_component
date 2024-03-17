@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_component/data/firebase_crash.dart';
+// import 'package:flutter_component/data/firebase_crash.dart';
 import 'package:flutter_component/data/spref.dart';
 
 class DioConfigNetwork {
@@ -58,6 +58,7 @@ class ErrorConfig extends Interceptor {
         'data': err.response?.requestOptions.data,
         'headers': err.response?.requestOptions.headers,
       };
+
       // FirebaseCrash.instant.sendNonFatalError(message: " ${err.message}", exception: err, log: "Request: $logRequest\nResponse: $logData");
     } catch (e) {
       rethrow;

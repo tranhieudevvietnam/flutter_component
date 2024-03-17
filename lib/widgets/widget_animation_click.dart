@@ -53,6 +53,7 @@ class _WidgetAnimationClickState extends State<WidgetAnimationClick> with Single
       behavior: HitTestBehavior.translucent,
       onTap: () {
         if (widget.onTap != null) {
+          FocusManager.instance.primaryFocus?.unfocus();
           _controller.forward();
         }
       },
