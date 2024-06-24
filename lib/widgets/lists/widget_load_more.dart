@@ -94,7 +94,11 @@ class _WidgetListLoadMoreState extends State<WidgetListLoadMore> {
     final length = (widget.data?.length ?? 0) + 1;
     return ListView.builder(
       padding: widget.padding,
-      controller: widget.globalKey != null ? null : scrollController,
+      controller: widget.globalKey != null
+          ? null
+          : widget.primary == false
+              ? null
+              : scrollController,
       physics: widget.physics ?? const AlwaysScrollableScrollPhysics(),
       itemCount: length,
       primary: widget.primary,

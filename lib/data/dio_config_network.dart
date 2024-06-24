@@ -11,6 +11,7 @@ class DioConfigNetwork {
   static DioConfigNetwork instant = DioConfigNetwork._();
   late BaseOptions _options;
   late Dio dio;
+
   init({required String baseUrl, BaseOptions? options}) {
     SPref.instant.init();
 
@@ -20,15 +21,18 @@ class DioConfigNetwork {
           receiveDataWhenStatusError: true,
           connectTimeout: const Duration(seconds: 20),
           receiveTimeout: const Duration(seconds: 20),
+          responseType: ResponseType.json,
         );
     dio = Dio(_options);
     // ignore: deprecated_member_use
     if (!kIsWeb) {
+      // ignore: deprecated_member_use
       (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
         client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
         return client;
       };
     }
+  
 
     dio.interceptors.addAll([RequestConfig(), ErrorConfig()]);
   }
@@ -39,6 +43,7 @@ class RequestConfig extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     String token = SPref.instant.getToken ?? '';
     if (token.isNotEmpty) {
+      options.headers['Accept'] = 'application/json';
       options.headers['authorization'] = 'Bearer $token';
     }
     super.onRequest(options, handler);
