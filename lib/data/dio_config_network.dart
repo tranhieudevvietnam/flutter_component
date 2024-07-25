@@ -32,7 +32,6 @@ class DioConfigNetwork {
         return client;
       };
     }
-  
 
     dio.interceptors.addAll([RequestConfig(), ErrorConfig()]);
   }
@@ -44,7 +43,7 @@ class RequestConfig extends Interceptor {
     String token = SPref.instant.getToken ?? '';
     if (token.isNotEmpty) {
       options.headers['Accept'] = 'application/json';
-      options.headers['authorization'] = 'Bearer $token';
+      // options.headers['authorization'] = 'Bearer $token';
     }
     super.onRequest(options, handler);
   }
